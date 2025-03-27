@@ -19,21 +19,24 @@
   <meta name="author" content="TATAzml">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="与门非门在电机驱动中的应用  首先再次确定一下与门和非门与门：输入1、2都为1则输出为1非门：输出与输入相反 如上图，DIR控制方向，可分高低电压，UA2和UA3为与 ，UA1为非门当DIR为0，UA2的1引脚为0，此时PWMA1输无论何时都不会输出高电平1          UA3的引脚2为1，此时PWMA2输出为正常未反向，PWMA2将与PWMA同步当DIR为1，UA2的1引脚为1，此时PWM">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://github.com/TATAzml/2025/03/04/hello-world/index.html">
+<meta property="og:title" content="单PWM如何驱动电机双向">
+<meta property="og:url" content="https://github.com/TATAzml/2025/03/27/%E5%8D%95PWM%E5%A6%82%E4%BD%95%E9%A9%B1%E5%8A%A8%E7%94%B5%E6%9C%BA%E5%8F%8C%E5%90%91/index.html">
 <meta property="og:site_name" content="TATAzml">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="与门非门在电机驱动中的应用  首先再次确定一下与门和非门与门：输入1、2都为1则输出为1非门：输出与输入相反 如上图，DIR控制方向，可分高低电压，UA2和UA3为与 ，UA1为非门当DIR为0，UA2的1引脚为0，此时PWMA1输无论何时都不会输出高电平1          UA3的引脚2为1，此时PWMA2输出为正常未反向，PWMA2将与PWMA同步当DIR为1，UA2的1引脚为1，此时PWM">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-04T11:38:48.816Z">
-<meta property="article:modified_time" content="2025-03-04T11:37:47.829Z">
+<meta property="og:image" content="https://github.com/2025/03/04/hello-world/%E4%B8%8E%E9%97%A8%E9%9D%9E%E9%97%A8%E7%94%B5%E8%B7%AF.png">
+<meta property="article:published_time" content="2025-03-27T13:17:10.000Z">
+<meta property="article:modified_time" content="2025-03-27T13:39:36.671Z">
 <meta property="article:author" content="TATAzml">
+<meta property="article:tag" content="硬件设计">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://github.com/2025/03/04/hello-world/%E4%B8%8E%E9%97%A8%E9%9D%9E%E9%97%A8%E7%94%B5%E8%B7%AF.png">
   
   
   
-  <title>Hello World - TATAzml</title>
+  <title>单PWM如何驱动电机双向 - TATAzml</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -212,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hello World"></span>
+            <span id="subtitle" data-typed-text="单PWM如何驱动电机双向"></span>
           
         </div>
 
@@ -223,8 +226,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-04 19:38" pubdate>
-          2025年3月4日 晚上
+        <time datetime="2025-03-27 21:17" pubdate>
+          2025年3月27日 晚上
         </time>
       </span>
     
@@ -235,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          18 字
+          175 字
         
       </span>
     
@@ -246,7 +249,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -292,24 +295,16 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Hello World</h1>
+            <h1 id="seo-header">单PWM如何驱动电机双向</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+                <p><strong>与门非门在电机驱动中的应用</strong></p>
+<p><img src="/2025/03/04/hello-world/%E4%B8%8E%E9%97%A8%E9%9D%9E%E9%97%A8%E7%94%B5%E8%B7%AF.png" srcset="/TATAzml/img/loading.gif" lazyload alt="与门非门电路"></p>
+<p>首先再次确定一下与门和非门<br>与门：输入1、2都为1则输出为1<br>非门：输出与输入相反</p>
+<p>如上图，DIR控制方向，可分高低电压，UA2和UA3为与 ，UA1为非门<br>当DIR为0，UA2的1引脚为0，此时PWMA1输无论何时都不会输出高电平1<br>          UA3的引脚2为1，此时PWMA2输出为正常未反向，PWMA2将与PWMA同步<br>当DIR为1，UA2的1引脚为1，此时PWMA1输出为正常未反向，PWMA1将与PWMA同步<br>          UA3的引脚2为0，此时PWMA2输无论何时都不会输出高电平1</p>
+<p>3V3：DIR无输出时拉高防波动<br>GND：拉低PWMA，防止意外PWMA输出</p>
 
                 
               </div>
@@ -319,6 +314,13 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/TATAzml/tags/%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1/" class="print-no-link">#硬件设计</a>
+      
+    </div>
+  
 </div>
 
 
@@ -327,8 +329,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hello World</div>
-      <div>https://github.com/TATAzml/2025/03/04/hello-world/</div>
+      <div>单PWM如何驱动电机双向</div>
+      <div>https://github.com/TATAzml/2025/03/27/单PWM如何驱动电机双向/</div>
     </div>
     <div class="license-meta">
       
@@ -340,7 +342,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年3月4日</div>
+          <div>2025年3月27日</div>
         </div>
       
       
@@ -372,15 +374,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/TATAzml/2025/03/04/test-article/" title="test_article">
+                      <a href="/TATAzml/2025/03/27/STM32%E7%9A%84BOOT0%E5%92%8CBOOT1%E7%9A%84%E4%BD%9C%E7%94%A8/" title="STM32的BOOT0和BOOT1的作用">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">test_article</span>
+                        <span class="hidden-mobile">STM32的BOOT0和BOOT1的作用</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/TATAzml/2025/03/27/MOS%E5%9C%A8%E7%94%B5%E6%BA%90%E7%94%B5%E5%8E%8B%E6%B5%8B%E9%87%8F%E6%97%B6%E7%9A%84%E4%BD%BF%E7%94%A8/" title="MOS在电源电压测量时的使用">
+                        <span class="hidden-mobile">MOS在电源电压测量时的使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
