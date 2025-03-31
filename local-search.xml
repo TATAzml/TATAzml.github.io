@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>STM32的BOOT0和BOOT1的作用</title>
+    <link href="/TATAzml/2025/03/27/STM32%E7%9A%84BOOT0%E5%92%8CBOOT1%E7%9A%84%E4%BD%9C%E7%94%A8/"/>
+    <url>/TATAzml/2025/03/27/STM32%E7%9A%84BOOT0%E5%92%8CBOOT1%E7%9A%84%E4%BD%9C%E7%94%A8/</url>
+    
+    <content type="html"><![CDATA[<p>STM32一共有三种启动模式，在ST官网上下载的RM0008中，可找到启动相关的配置说明：<br><img src="/TATAzml/2025/03/27/STM32%E7%9A%84BOOT0%E5%92%8CBOOT1%E7%9A%84%E4%BD%9C%E7%94%A8/1.png" alt="官网手册配置说明"></p><table><thead><tr><th>BOOT1</th><th>BOOT0</th><th>启动模式</th><th>说明</th></tr></thead><tbody><tr><td>X</td><td>0</td><td>主闪存存储器</td><td>主闪存存储器被选为启动区域</td></tr><tr><td>0</td><td>1</td><td>系统存储器</td><td>系统存储器被选为启动区域</td></tr><tr><td>1</td><td>1</td><td>内置SRAM</td><td>内置SRAM被选为启动区域</td></tr><tr><td>以上三种存储介质：</td><td></td><td></td><td></td></tr></tbody></table><pre><code class="hljs">**A** 主闪存存储器：芯片内置的Flash**B** 系统存储器 ：厂家出厂时在芯片内部一块特定的区域预留了一段Bootloader，慢但用于救机**C** 内置SRAM：芯片内置的RAM区，就是内存，掉电就丢失</code></pre><p>对以上ABC三种方式作详细解释如下：</p><h3 id="A-正常模式"><a href="#A-正常模式" class="headerlink" title="A 正常模式"></a><strong>A</strong> 正常模式</h3><ul><li><strong>启动条件</strong>：<code>BOOT0=0</code>，<code>BOOT1=任意值</code>。</li><li><strong>功能</strong>：<ul><li>芯片从用户Flash启动，执行用户编写的程序。</li><li><strong>下载方式</strong>：通过调试接口（如SWD、JTAG）直接烧录Flash。<ul><li>常用工具：ST-Link、J-Link、DAP-Link等。</li><li><strong>无需修改启动模式</strong>，只要调试接口未被用户程序禁用。</li></ul></li></ul></li><li><strong>特点</strong>：<ul><li><strong>高速、稳定</strong>，适合日常开发和量产。</li><li>Flash可擦写约10万次，足够大多数应用需求。</li></ul></li></ul><h3 id="B-救机模式-ISP（系统存储器启动模式）"><a href="#B-救机模式-ISP（系统存储器启动模式）" class="headerlink" title="B 救机模式&#x2F;ISP（系统存储器启动模式）"></a><strong>B</strong> 救机模式&#x2F;ISP（系统存储器启动模式）</h3><ul><li><strong>启动条件</strong>：<code>BOOT0=1</code>，<code>BOOT1=0</code>。</li><li><strong>功能</strong>：<ul><li>芯片从系统存储器（System Memory）启动，执行出厂预置的BootLoader程序。</li><li>该BootLoader支持通过<strong>串口（如USART）</strong> 进行程序下载（即ISP），常用于以下场景：<ul><li>用户Flash中的程序损坏，无法正常运行。</li><li>未使用调试器（如ST-Link），仅需通过串口更新程序。</li></ul></li></ul></li><li><strong>特点</strong>：<ul><li><strong>速度较慢</strong>（受限于串口速率），通常用于紧急修复或简单烧录。</li><li><strong>无需额外工具</strong>，仅需串口和上位机软件（如STM32CubeProgrammer）。</li></ul></li></ul><h3 id="C-SRAM启动模式"><a href="#C-SRAM启动模式" class="headerlink" title="C SRAM启动模式"></a><strong>C</strong> SRAM启动模式</h3><ul><li><strong>启动条件</strong>：<code>BOOT0=1</code>，<code>BOOT1=1</code>。</li><li><strong>功能</strong>：<ul><li>芯片从内部SRAM启动，程序在RAM中运行。</li><li><strong>下载方式</strong>：通过调试接口（SWD&#x2F;JTAG）将代码临时加载到SRAM。</li></ul></li><li><strong>特点</strong>：<ul><li><strong>掉电后程序丢失</strong>，适用于快速调试或测试代码片段。</li><li>无需擦写Flash，节省寿命。</li><li>该方式用的较少，其SRAM一般限制在数十KB，不易调试大型程序</li></ul></li></ul><p>以上，由于SRAM启动模式使用频次低，因此常将BOOT1接地或者当做普通引脚使用，而BOOT0则引出按键。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>STM32</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>MOS在电源电压测量时的使用</title>
+    <link href="/TATAzml/2025/03/27/MOS%E5%9C%A8%E7%94%B5%E6%BA%90%E7%94%B5%E5%8E%8B%E6%B5%8B%E9%87%8F%E6%97%B6%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+    <url>/TATAzml/2025/03/27/MOS%E5%9C%A8%E7%94%B5%E6%BA%90%E7%94%B5%E5%8E%8B%E6%B5%8B%E9%87%8F%E6%97%B6%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    
+    <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/qq_37946877/article/details/120753421">参考链接</a></p><h1 id="常用的获知电池电压的方式"><a href="#常用的获知电池电压的方式" class="headerlink" title="常用的获知电池电压的方式"></a>常用的获知电池电压的方式</h1><p><img src="/TATAzml/2025/03/27/MOS%E5%9C%A8%E7%94%B5%E6%BA%90%E7%94%B5%E5%8E%8B%E6%B5%8B%E9%87%8F%E6%97%B6%E7%9A%84%E4%BD%BF%E7%94%A8/1.png" alt="两电阻分压"><br>两电阻分压，常用锂电池电压在2.7-4.2V之间，此时分压引脚大约在1.35-2.1V之间，未超过MCU限制电压3.3V</p><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>即使不在使用了，R1和R2依然在放电，浪费电池电量</p><h2 id="解决1"><a href="#解决1" class="headerlink" title="解决1"></a>解决1</h2><p><img src="/TATAzml/2025/03/27/MOS%E5%9C%A8%E7%94%B5%E6%BA%90%E7%94%B5%E5%8E%8B%E6%B5%8B%E9%87%8F%E6%97%B6%E7%9A%84%E4%BD%BF%E7%94%A8/2.png" alt="解决1"></p><p>使用时，EN脚拉低，则Q4的PMOS打开，导通后ADC可进行采样。<br>关机后，上方的VCC拉高PMOS的gate端导致PMOS的source端和drain端断开，R21和R23则不再消耗电量</p><h3 id="解决1——注意与改进"><a href="#解决1——注意与改进" class="headerlink" title="解决1——注意与改进"></a>解决1——注意与改进</h3><ol><li>既然是做电压检测，则R21与R23一定要选最高精度的电阻</li><li>MOS管的Rds尽可能小，虽然这样会造成Cgs增加但并不是高频变换的所以影响不大</li><li>NMOS相对更多更便宜，<a href="https://www.eet-china.com/mp/a367290.html">电路参考</a><br>如第三点中的<a href="https://www.eet-china.com/mp/a367290.html">电路参考</a><br><strong>第1个推荐电路</strong><br>在不进行电压测量时，把两个分压电阻的放电回路断开。加入一个NMOS管即可：<br><img src="/TATAzml/2025/03/27/MOS%E5%9C%A8%E7%94%B5%E6%BA%90%E7%94%B5%E5%8E%8B%E6%B5%8B%E9%87%8F%E6%97%B6%E7%9A%84%E4%BD%BF%E7%94%A8/3.png"><br>单片机的GPIO，即MCU_Control控制MOS管Q1的栅极：<br>1、需要测量电池电压时输出高电平，将MOS管Q1打开。<br>2、不需要测量电池电压时输出低电平，将MOS管Q1关闭。<br>这个电路需要注意，在MOS管Q1关闭时，电阻R2没有参与分压，MCU的ADC引脚通过电阻R1直接连接到电池，需要注意ADC引脚是否能够承受锂电池4.2V的电压值。<br><strong>第2个推荐电路</strong><br>如果不能承受，那么把电路改动一下，将MOS管上移到两个电阻之间：<br><img src="/TATAzml/2025/03/27/MOS%E5%9C%A8%E7%94%B5%E6%BA%90%E7%94%B5%E5%8E%8B%E6%B5%8B%E9%87%8F%E6%97%B6%E7%9A%84%E4%BD%BF%E7%94%A8/4.png"><br>假设MCU的GPIO输出的高电平为3.3V，即MCU_Control输出3.3V，那么在MOS管打开时各点电压如下：<br><img src="/TATAzml/2025/03/27/MOS%E5%9C%A8%E7%94%B5%E6%BA%90%E7%94%B5%E5%8E%8B%E6%B5%8B%E9%87%8F%E6%97%B6%E7%9A%84%E4%BD%BF%E7%94%A8/5.png"><br>所以MOS管的Vgs &#x3D; 3.3V - 1.4V &#x3D; 1.9V。<br>查看MOS管AO3400的数据手册，其Vgs的范围是0.65V-1.45V：<br><img src="/TATAzml/2025/03/27/MOS%E5%9C%A8%E7%94%B5%E6%BA%90%E7%94%B5%E5%8E%8B%E6%B5%8B%E9%87%8F%E6%97%B6%E7%9A%84%E4%BD%BF%E7%94%A8/6.png"><br>MOS管导通要求的Vgs最大值为1.45V，小于上述电路的1.9V，所以上述电路可以使用。<br>提醒大家在选型MOS管的型号时，务必注意Vgs这个参数。<br>如果MCU的GPIO是1.8V的，那必然不能把上述电路的MOS管打开。</li></ol><h2 id="解决2"><a href="#解决2" class="headerlink" title="解决2"></a>解决2</h2><p>常用的获知电池电压的方式中，将普通GND改为单片机的引脚并拉低为GND，不使用时将该引脚配置为高阻态即可。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>硬件设计</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>单PWM如何驱动电机双向</title>
+    <link href="/TATAzml/2025/03/27/%E5%8D%95PWM%E5%A6%82%E4%BD%95%E9%A9%B1%E5%8A%A8%E7%94%B5%E6%9C%BA%E5%8F%8C%E5%90%91/"/>
+    <url>/TATAzml/2025/03/27/%E5%8D%95PWM%E5%A6%82%E4%BD%95%E9%A9%B1%E5%8A%A8%E7%94%B5%E6%9C%BA%E5%8F%8C%E5%90%91/</url>
+    
+    <content type="html"><![CDATA[<p><strong>与门非门在电机驱动中的应用</strong></p><p><img src="/TATAzml/2025/03/27/%E5%8D%95PWM%E5%A6%82%E4%BD%95%E9%A9%B1%E5%8A%A8%E7%94%B5%E6%9C%BA%E5%8F%8C%E5%90%91/%E4%B8%8E%E9%97%A8%E9%9D%9E%E9%97%A8%E7%94%B5%E8%B7%AF.png" alt="与门非门电路"></p><p>首先再次确定一下与门和非门<br>与门：输入1、2都为1则输出为1<br>非门：输出与输入相反</p><p>如上图，DIR控制方向，可分高低电压，UA2和UA3为与 ，UA1为非门<br>当DIR为0，UA2的1引脚为0，此时PWMA1输无论何时都不会输出高电平1<br>          UA3的引脚2为1，此时PWMA2输出为正常未反向，PWMA2将与PWMA同步<br>当DIR为1，UA2的1引脚为1，此时PWMA1输出为正常未反向，PWMA1将与PWMA同步<br>          UA3的引脚2为0，此时PWMA2输无论何时都不会输出高电平1</p><p>3V3：DIR无输出时拉高防波动<br>GND：拉低PWMA，防止意外PWMA输出</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>硬件设计</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux-随笔</title>
+    <link href="/TATAzml/2025/03/25/Linux-%E9%9A%8F%E7%AC%94/"/>
+    <url>/TATAzml/2025/03/25/Linux-%E9%9A%8F%E7%AC%94/</url>
+    
+    <content type="html"><![CDATA[<h1 id="安装yuview时打不开Ubuntu软件中心"><a href="#安装yuview时打不开Ubuntu软件中心" class="headerlink" title="安装yuview时打不开Ubuntu软件中心"></a>安装yuview时打不开Ubuntu软件中心</h1><p>Ubuntu software打不开<br>网上搜的<a href="https://blog.csdn.net/WU2629409421perfect/article/details/118382320">https://blog.csdn.net/WU2629409421perfect/article/details/118382320</a><br>清除一下缓存再重启</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">rm</span> -rvf /var/lib/apt/lists/* <br><span class="hljs-comment">## Then </span><br><span class="hljs-built_in">sudo</span> apt-get update <br><span class="hljs-comment">## Then </span><br><span class="hljs-built_in">sudo</span> shutdown -r now<br></code></pre></td></tr></table></figure><p>还是没用，最后右键software选择show details打开了<br>后来发现好像使用snap命令安装就能安装，因为软件中心使用的也是snap命令<br><a href="https://askubuntu.com/questions/1029117/unable-to-install-package-snap-package-has-install-snap-change-in-pro">https://askubuntu.com/questions/1029117/unable-to-install-package-snap-package-has-install-snap-change-in-pro</a><br>例如，使用snap changes命令就可以看到正在执行的安装</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">narwal@ubuntu:~$ snap changes<br>ID   Status  Spawn               Ready               Summary<br>1    Done    today at 10:23 CST  today at 10:23 CST  Initialize system state<br>2    Doing   today at 10:23 CST  -                   Install <span class="hljs-string">&quot;snap-store&quot;</span> snap<br>3    Done    today at 10:23 CST  today at 10:23 CST  Initialize device<br>4    Doing   today at 10:48 CST  -                   Install <span class="hljs-string">&quot;yuview&quot;</span> snap from <span class="hljs-string">&quot;latest/beta&quot;</span> channel<br>【安装好yuview之后】<br>narwal@ubuntu:~$ snap changes<br>ID   Status  Spawn               Ready               Summary<br>1    Done    today at 10:23 CST  today at 10:23 CST  Initialize system state<br>2    Done    today at 10:23 CST  today at 10:56 CST  Install <span class="hljs-string">&quot;snap-store&quot;</span> snap<br>3    Done    today at 10:23 CST  today at 10:23 CST  Initialize device<br>4    Done    today at 10:48 CST  today at 10:56 CST  Install <span class="hljs-string">&quot;yuview&quot;</span> snap from <span class="hljs-string">&quot;latest/beta&quot;</span> channel<br></code></pre></td></tr></table></figure><h1 id="1-是什么"><a href="#1-是什么" class="headerlink" title="$(1)是什么"></a>$(1)是什么</h1><p>在Makefile或者类似的构建系统脚本中，$(1) 通常表示一个位置参数，可以在调用该宏或函数时传递实际的值。这样做的目的是为了使代码更加灵活和可复用。<br>让我们来看一个实际的例子，这里使用的是一个OpenWrt的Makefile片段，OpenWrt是一种专门为嵌入式设备设计的Linux操作系统。假设这个Makefile片段用于定义一个名为myapp的软件包的安装步骤：</p><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs makefile">【定义包的一些基本信息】<br>PKG_NAME:=myapp<br>PKG_VERSION:=1.0<br>PKG_RELEASE:=1<br><span class="hljs-keyword">include</span> <span class="hljs-variable">$(INCLUDE_DIR)</span>/package.mk<br>【定义包的总体配置】<br><span class="hljs-keyword">define</span> Package/<span class="hljs-variable">$(PKG_NAME)</span><br>SECTION:=utils<br>CATEGORY:=Utilities<br>TITLE:=My Application<br>DEPENDS:=+libc<br><span class="hljs-keyword">endef</span><br>【定义包的安装步骤】<br><span class="hljs-keyword">define</span> Package/<span class="hljs-variable">$(PKG_NAME)</span>/install<br><span class="hljs-variable">$(INSTALL_DIR)</span> $(1)/usr/bin<br><span class="hljs-variable">$(INSTALL_BIN)</span> <span class="hljs-variable">$(PKG_BUILD_DIR)</span>/myapp $(1)/usr/bin/<br><span class="hljs-keyword">endef</span><br>【注册包】<br><span class="hljs-variable">$(<span class="hljs-built_in">eval</span> $(<span class="hljs-built_in">call</span> BuildPackage,<span class="hljs-variable">$(PKG_NAME)</span>)</span>)<br></code></pre></td></tr></table></figure><h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><h3 id="定义包的信息"><a href="#定义包的信息" class="headerlink" title="定义包的信息"></a>定义包的信息</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">PKG_NAME</span>:=myapp<br><span class="hljs-attribute">PKG_VERSION</span>:=<span class="hljs-number">1</span>.<span class="hljs-number">0</span><br><span class="hljs-attribute">PKG_RELEASE</span>:=<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure><p>这些变量定义了包的名称、版本和发布号。</p><h3 id="包含通用的package-mk文件"><a href="#包含通用的package-mk文件" class="headerlink" title="包含通用的package.mk文件"></a>包含通用的package.mk文件</h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crystal"><span class="hljs-keyword">include</span> <span class="hljs-variable">$(</span>INCLUDE_DIR)/package.mk<br></code></pre></td></tr></table></figure><p>这行代码包含了OpenWrt构建系统中用于处理软件包的通用逻辑。</p><h3 id="定义包的总体配置"><a href="#定义包的总体配置" class="headerlink" title="定义包的总体配置"></a>定义包的总体配置</h3><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-keyword">define</span> Package/<span class="hljs-variable">$(PKG_NAME)</span><br>SECTION:=utils<br>CATEGORY:=Utilities<br>TITLE:=My Application<br>DEPENDS:=+libc<br><span class="hljs-keyword">endef</span><br></code></pre></td></tr></table></figure><p>这部分用于定义包的一些基本属性，如分类(SECTION)，类别(CATEGORY)，标题(TITLE)和依赖项(DEPENDS)。</p><h3 id="定义包的安装步骤"><a href="#定义包的安装步骤" class="headerlink" title="定义包的安装步骤"></a>定义包的安装步骤</h3><figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs arcade">define Package/$(PKG_NAME)/install<br>$(INSTALL_DIR) $(<span class="hljs-number">1</span>)/usr/bin<br>$(INSTALL_BIN) $(PKG_BUILD_DIR)/myapp $(<span class="hljs-number">1</span>)/usr/bin/<br>endef<br></code></pre></td></tr></table></figure><p>这里定义了安装步骤，其中有两个命令：</p><p>$(INSTALL_DIR) $(1)&#x2F;usr&#x2F;bin：创建目标安装目录。<br>$(INSTALL_BIN) $(PKG_BUILD_DIR)&#x2F;myapp $(1)&#x2F;usr&#x2F;bin&#x2F;：将编译好的myapp二进制文件安装到目标目录中。<br>其中的$(1)是一个占位符，用于传递实际的安装路径，它会在具体调用这个宏时被替换成实际的路径。</p><h3 id="注册包"><a href="#注册包" class="headerlink" title="注册包"></a>注册包</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">$(<span class="hljs-built_in">eval</span> $(call <span class="hljs-title class_">BuildPackage</span>,$(<span class="hljs-variable constant_">PKG_NAME</span>)))<br></code></pre></td></tr></table></figure><p>这行代码调用OpenWrt的宏，注册并构建软件包。</p><h2 id="实际调用"><a href="#实际调用" class="headerlink" title="实际调用"></a>实际调用</h2><p>在实际构建过程中，OpenWrt的构建系统会调用Package&#x2F;myapp&#x2F;install这个宏，并传递实际的安装路径，这时候$(1)会被替换成实际的路径。例如：</p><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle">make <span class="hljs-keyword">package</span><span class="hljs-regexp">/myapp/i</span>nstall <br>PREFIX=<span class="hljs-regexp">/path/</span>to/install<br></code></pre></td></tr></table></figure><p>在实际执行上面的命令时，&#x2F;path&#x2F;to&#x2F;install 就会替换 $(1)，所以 $(INSTALL_DIR) $(1)&#x2F;usr&#x2F;bin 实际执行完会在 &#x2F;path&#x2F;to&#x2F;install&#x2F;usr&#x2F;bin 创建目录。<br>这样，通过使用位置参数$(1)，安装宏可以在不同的环境中重复使用，而无需在宏内部硬编码具体路径。</p><h1 id="文件系统read-only的处理——remount"><a href="#文件系统read-only的处理——remount" class="headerlink" title="文件系统read-only的处理——remount"></a>文件系统read-only的处理——remount</h1><p>在地平线板子中想复制一个文件到&#x2F;usr&#x2F;hobot&#x2F;lib中但是报错read-only system</p><p>查询解决方案为</p><ol><li>先df -hT确认文件系统当前的挂载状态</li><li>重新挂载文件系统为读写模式。<code>mount -o remount,rw /usr/hobot</code></li><li>验证，看一下是否已变为读写（虽然之前也是读写模式，用文件cp试试）</li></ol><h1 id="各类分配内存方式"><a href="#各类分配内存方式" class="headerlink" title="各类分配内存方式"></a>各类分配内存方式</h1><p>alloca<br>    <code>void *allloca(size_t size)</code><br>    向栈申请内存，无需释放<br>malloc<br>    <code>void *malloc(size_t size)</code><br>    向堆申请内存，不初始化，需要memset来初始化这部分内存<br>kmalloc<br>    <code>void *kmalloc(size_t size, int flags)</code><br>    申请内核空间、用get_free_page来申请内存<br>    分配的内存物理上连续，虚拟上连续<br>    size表示需要申请的大小，flags控制内存分配行为，包括GFP_KERNEL\GFP_USER\GFP_ATOMIC\GFP_DMA等<br>    释放：kfree<br>vmalloc<br>    <code>void *vmalloc(unsigned long size)</code><br>    申请内核空间、相较于kmalloc用以申请更大的内存<br>    分配的内存物理上不连续，虚拟上连续<br>    释放：vfree<br>calloc<br>    <code>void *calloc(size_t nmemb, size_t size)</code><br>    向堆申请内存，初始化为0<br>realloc<br>    <code>void *realloc(void *ptr, size_t size)</code><br>    只更改由malloc申请的内存大小</p><h1 id="为什么使用0x55AA作为签名字节"><a href="#为什么使用0x55AA作为签名字节" class="headerlink" title="为什么使用0x55AA作为签名字节"></a>为什么使用0x55AA作为签名字节</h1><p>HEX:0x55AA<br>BIN:0b 01010101 10101010<br>原因：</p><ol><li>高频变化易于检测</li><li>相对独特防止误触</li><li>对比明显方便调试</li><li>约定俗成提高兼容</li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>test_article</title>
+    <link href="/TATAzml/2025/03/04/test-article/"/>
+    <url>/TATAzml/2025/03/04/test-article/</url>
+    
+    <content type="html"><![CDATA[<p>这是一篇测试文章</p><p><img src="/TATAzml/2025/03/04/test-article/test.png" alt="图片引用方法二"></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>原创</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/TATAzml/2025/03/04/hello-world/"/>
+    <url>/TATAzml/2025/03/04/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
